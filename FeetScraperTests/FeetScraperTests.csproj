@@ -6,6 +6,8 @@
     <Nullable>disable</Nullable>
     <IsPackable>false</IsPackable>
     <NoWarn>1701;1702;S1186</NoWarn>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>feetscrapertests.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>

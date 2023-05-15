@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Newtonsoft.Json.Linq;
+using System.Linq;
 using System.Text;
 
 namespace FeetScraper.Logic
@@ -33,6 +34,20 @@ namespace FeetScraper.Logic
             string b = inlinestyle.Substring(inlinestyle.IndexOf('\'') + 1);
             b = b.Substring(0, b.LastIndexOf('\''));
             return b;
+        }
+
+        public static bool IsValidJson(string json, out JToken jToken)
+        {
+            try
+            {
+                jToken = JToken.Parse(json);
+            }
+            catch (System.Exception)
+            {
+                jToken = null;
+                return false;
+            }
+            return true;
         }
     }
 }

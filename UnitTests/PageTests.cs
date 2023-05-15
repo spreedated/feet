@@ -3,12 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FeetScraper.Logic;
-using static FeetScraper.Logic.Constants;
 using RichardSzalay.MockHttp;
 using static UnitTests.TestFunctions.HelperFunctions;
 using HtmlAgilityPack;
 using FeetScraper.Models;
-using System.Net;
 
 namespace UnitTests
 {
@@ -21,95 +19,140 @@ namespace UnitTests
 
         }
 
-        //[Test]
-        //public void SearchFailedTests()
-        //{
-        //    MockHttpMessageHandler mockhttp = new();
-        //    mockhttp.When($"{Constants.FEET_URL}search/foo").Respond("text/html", "");
-        //    FeetSearch s = new()
-        //    {
-        //        httpClient = mockhttp.ToHttpClient()
-        //    };
+        [Test]
+        public void ProcessFailedTests()
+        {
+            MockHttpMessageHandler mockhttp = new();
+            mockhttp.When($"{Constants.FEET_URL}foo").Respond("text/plain", "");
+            FeetPage s = new("foo")
+            {
+                httpClient = mockhttp.ToHttpClient()
+            };
 
-        //    IEnumerable<SearchResponse> res = null;
+            PageResponse res = null;
 
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.DoesNotThrowAsync(async () => res = await s.SearchAsync("foo"));
-        //        Assert.That(res.Count(), Is.EqualTo(0));
-        //    });
+            Assert.Multiple(() =>
+            {
+                Assert.DoesNotThrowAsync(async () => res = await s.RetrieveAsync());
+                Assert.That(res.Feet, Is.Empty);
+            });
 
-        //    mockhttp.When($"{Constants.FEET_URL}search/foo").Respond("text/plain", "<html>nothing</html>");
-        //    s = new()
-        //    {
-        //        httpClient = mockhttp.ToHttpClient()
-        //    };
+            mockhttp = new();
+            mockhttp.When($"{Constants.FEET_URL}foo").Respond("text/plain", "<html><p>foobar</p></html>");
+            s = new("foo")
+            {
+                httpClient = mockhttp.ToHttpClient()
+            };
 
-        //    res = null;
+            res = null;
 
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.DoesNotThrowAsync(async () => res = await s.SearchAsync("foo"));
-        //        Assert.That(res.Count(), Is.EqualTo(0));
-        //    });
+            Assert.Multiple(() =>
+            {
+                Assert.DoesNotThrowAsync(async () => res = await s.RetrieveAsync());
+                Assert.That(res.Feet, Is.Empty);
+            });
+        }
 
-        //    mockhttp.When($"{Constants.FEET_URL}search/foo").Respond(HttpStatusCode.BadGateway);
-        //    s = new()
-        //    {
-        //        httpClient = mockhttp.ToHttpClient()
-        //    };
+        [Test]
+        public void ProcessSuccessTests()
+        {
+            MockHttpMessageHandler mockhttp = new();
+            mockhttp.When($"{Constants.FEET_URL}foo").Respond("text/html", GetEmbeddedHtml("KnownFeetResult.html"));
+            FeetPage s = new("foo")
+            {
+                httpClient = mockhttp.ToHttpClient()
+            };
 
-        //    res = null;
+            PageResponse res = null;
 
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.DoesNotThrowAsync(async () => res = await s.SearchAsync("foo"));
-        //        Assert.That(res.Count(), Is.EqualTo(0));
-        //    });
+            Assert.Multiple(() =>
+            {
+                Assert.DoesNotThrowAsync(async () => res = await s.RetrieveAsync());
+                Assert.That(res.Feet.Count(x => x.FootTags.Any(y => y.Id == 'T')), Is.EqualTo(14));
+                Assert.That(res.ShoeSize, Is.EqualTo(9));
+                Assert.That(res.Feet.Count(), Is.EqualTo(558));
+                Assert.That(res.Birthday, Is.EqualTo(new DateTime(1968, 2, 22)));
+                Assert.That(res.Birthplace, Is.EqualTo("United States"));
+            });
+        }
 
-        //    mockhttp.When($"{Constants.FEET_URL}search/foo").Respond(HttpStatusCode.BadRequest);
-        //    s = new()
-        //    {
-        //        httpClient = mockhttp.ToHttpClient()
-        //    };
+        [Test]
+        public void RetrieveFootPicturesTests()
+        {
+            Assert.That(FeetPage.RetrieveFootPictures(null, "foobar"), Is.Empty);
 
-        //    IEnumerable<SearchResponse> res0 = null;
+            HtmlDocument doc = new();
 
-        //    s.Completed += (o,e) => res0 = e.SearchResponses;
+            doc.LoadHtml("<html>foobar</html>");
+            Assert.That(FeetPage.RetrieveFootPictures(doc.DocumentNode, "foobar"), Is.Empty);
 
-        //    res = null;
+            doc.LoadHtml("");
+            Assert.That(FeetPage.RetrieveFootPictures(doc.DocumentNode, "foobar"), Is.Empty);
 
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.DoesNotThrowAsync(async () => res = await s.SearchAsync("foo"));
-        //        Assert.That(res, Is.Empty);
-        //        Assert.That(res.Count(), Is.EqualTo(0));
-        //        Assert.That(res0, Is.Empty);
-        //        Assert.That(res0.Count(), Is.EqualTo(0));
-        //    });
-        //}
+            doc.LoadHtml(GetEmbeddedHtml("KnownFeetResult.html"));
 
-        //[Test]
-        //public void SearchSuccessTests()
-        //{
-        //    MockHttpMessageHandler mockhttp = new();
-        //    mockhttp.When($"{Constants.FEET_URL}search/foo").Respond("text/html", GetEmbeddedHtml("SearchResult.html"));
-        //    FeetSearch s = new()
-        //    {
-        //        httpClient = mockhttp.ToHttpClient()
-        //    };
+            IEnumerable<FootPicture> footPictures = FeetPage.RetrieveFootPictures(doc.DocumentNode, "foobar");
 
-        //    IEnumerable<SearchResponse> res = null;
+            Assert.That(footPictures.Count(), Is.EqualTo(558));
+            Assert.That(footPictures.Any(x => x.Name == null || x.Name != "foobar"), Is.False);
+        }
 
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.DoesNotThrowAsync(async () => res = await s.SearchAsync("foo"));
-        //        Assert.That(res.Count(), Is.EqualTo(12));
-        //        Assert.That(res.Any(x => x.Piccount == 0), Is.True);
-        //        Assert.That(res.Count(x => x.Piccount == 0), Is.EqualTo(1));
-        //        Assert.That(res.Count(x => x.Piccount != 0), Is.EqualTo(11));
-        //    });
-        //}
+        [Test]
+        public void RetrieveFeetpicCountTests()
+        {
+            Assert.That(FeetPage.RetrieveFeetPicsCount(null), Is.EqualTo(0));
+
+            HtmlDocument doc = new();
+
+            doc.LoadHtml("<html>foobar</html>");
+            Assert.That(FeetPage.RetrieveFeetPicsCount(doc.DocumentNode), Is.EqualTo(0));
+
+            doc.LoadHtml("");
+            Assert.That(FeetPage.RetrieveFeetPicsCount(doc.DocumentNode), Is.EqualTo(0));
+
+            doc.LoadHtml(GetEmbeddedHtml("KnownFeetResult.html"));
+            Assert.That(FeetPage.RetrieveFeetPicsCount(doc.DocumentNode), Is.EqualTo(558));
+        }
+
+        [Test]
+        public void RetrieveShoesizeTests()
+        {
+            Assert.That(FeetPage.RetrieveShoesize(null), Is.Null);
+
+            HtmlDocument doc = new();
+
+            doc.LoadHtml("<html>foobar</html>");
+            Assert.That(FeetPage.RetrieveShoesize(doc.DocumentNode), Is.Null);
+
+            doc.LoadHtml("");
+            Assert.That(FeetPage.RetrieveShoesize(doc.DocumentNode), Is.Null);
+
+            doc.LoadHtml(GetEmbeddedHtml("KnownFeetResult.html"));
+            Assert.That(FeetPage.RetrieveShoesize(doc.DocumentNode), Is.Not.Null);
+            Assert.That(FeetPage.RetrieveShoesize(doc.DocumentNode), Is.EqualTo(9f));
+
+            doc.LoadHtml(GetEmbeddedHtml("KnownFeetResult.html").Replace("9 US", "14.5 US"));
+            Assert.That(FeetPage.RetrieveShoesize(doc.DocumentNode), Is.Not.Null);
+            Assert.That(FeetPage.RetrieveShoesize(doc.DocumentNode), Is.EqualTo(14.5f));
+        }
+
+        [Test]
+        public void RetrieveFeetRatingStatsTests()
+        {
+            Assert.That(FeetPage.RetrieveFeetRatingStats(null), Is.Null);
+
+            HtmlDocument doc = new();
+
+            doc.LoadHtml("<html>foobar</html>");
+            Assert.That(FeetPage.RetrieveFeetRatingStats(doc.DocumentNode), Is.Null);
+
+            doc.LoadHtml("");
+            Assert.That(FeetPage.RetrieveFeetRatingStats(doc.DocumentNode), Is.Null);
+
+            doc.LoadHtml(GetEmbeddedHtml("KnownFeetResult.html"));
+            Assert.That(FeetPage.RetrieveFeetRatingStats(doc.DocumentNode), Is.Not.Null);
+            Assert.That(FeetPage.RetrieveFeetRatingStats(doc.DocumentNode).Total, Is.EqualTo(1413));
+        }
 
         [Test]
         public void RetrieveBirthplaceTests()

@@ -5,9 +5,9 @@ VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeetFinder", "FeetFinder\FeetFinder.csproj", "{7864304A-8B28-47AC-93A9-0F07A46A07D7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{D8005696-AE67-4EF9-A343-7B59942B5A94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeetScraperTests", "FeetScraperTests\FeetScraperTests.csproj", "{D8005696-AE67-4EF9-A343-7B59942B5A94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeetScraper", "FeetScraper\FeetScraper.csproj", "{120E9331-4131-4F26-B275-07F233F6D250}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeetScraper", "FeetScraper\FeetScraper.csproj", "{120E9331-4131-4F26-B275-07F233F6D250}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

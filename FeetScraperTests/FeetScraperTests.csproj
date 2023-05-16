@@ -14,12 +14,14 @@
     <None Remove="TestHtmls\KnownFeetResult.html" />
     <None Remove="TestHtmls\SearchResult.html" />
     <None Remove="TestHtmls\UnknownFeetResult.html" />
+    <None Remove="TestPictures\testpicture.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="TestHtmls\KnownFeetResult.html" />
     <EmbeddedResource Include="TestHtmls\SearchResult.html" />
     <EmbeddedResource Include="TestHtmls\UnknownFeetResult.html" />
+    <EmbeddedResource Include="TestPictures\testpicture.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +42,10 @@
   <ItemGroup>
     <ProjectReference Include="..\FeetFinder\FeetFinder.csproj" />
     <ProjectReference Include="..\FeetScraper\FeetScraper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestPictures\" />
   </ItemGroup>
 
 </Project>

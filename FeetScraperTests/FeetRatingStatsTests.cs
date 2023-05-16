@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UnitTests
+namespace FeetScraperTests
 {
     [TestFixture]
     public class FeetRatingStatsTests

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using FeetScraper.Logic;
 using RichardSzalay.MockHttp;
-using static UnitTests.TestFunctions.HelperFunctions;
+using static FeetScraperTests.TestFunctions.HelperFunctions;
 using HtmlAgilityPack;
 using FeetScraper.Models;
 
-namespace UnitTests
+namespace FeetScraperTests
 {
     [TestFixture]
     public class PageTests

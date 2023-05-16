@@ -5,12 +5,12 @@ using System.Linq;
 using FeetScraper.Logic;
 using static FeetScraper.Logic.Constants;
 using RichardSzalay.MockHttp;
-using static UnitTests.TestFunctions.HelperFunctions;
+using static FeetScraperTests.TestFunctions.HelperFunctions;
 using HtmlAgilityPack;
 using FeetScraper.Models;
 using System.Net;
 
-namespace UnitTests
+namespace FeetScraperTests
 {
     [TestFixture]
     public class SearchTests

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace UnitTests.TestFunctions
+namespace FeetScraperTests.TestFunctions
 {
     internal static class HelperFunctions
     {
@@ -13,6 +13,18 @@ namespace UnitTests.TestFunctions
                     return r.ReadToEnd();
                 }
             }
+        }
+
+        internal static byte[] GetEmbeddedPicture(string name)
+        {
+            byte[] buffer = null;
+            using (Stream s = typeof(HelperFunctions).Assembly.GetManifestResourceStream($"{typeof(HelperFunctions).Assembly.GetName().Name}.TestPictures.{name}"))
+            {
+                buffer = new byte[s.Length];
+
+                s.Read(buffer, 0, buffer.Length);
+            }
+            return buffer;
         }
     }
 }

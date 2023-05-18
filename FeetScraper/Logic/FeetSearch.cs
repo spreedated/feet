@@ -14,18 +14,27 @@ namespace FeetScraper.Logic
 {
     public class FeetSearch : IDisposable
     {
+        public enum Genders
+        {
+            Women,
+            Men
+        }
+
         internal List<SearchResponse> searchResponses;
         internal HttpClient httpClient;
 
         private bool isRunning;
 
+        public Genders Gender { get; init; }
+
         public event EventHandler Started;
         public event EventHandler<SearchCompletedEventArgs> Completed;
 
-        public FeetSearch()
+        public FeetSearch(Genders gender = Genders.Women)
         {
             this.httpClient = new();
             this.searchResponses = new();
+            this.Gender = gender;
         }
 
         public async Task<IEnumerable<SearchResponse>> SearchAsync(string name)
@@ -178,7 +187,7 @@ namespace FeetScraper.Logic
         private async Task<HtmlNodeCollection> DownloadSourcecode(string name)
         {
             this.httpClient.Timeout = new TimeSpan(0, 0, 10);
-            HttpResponseMessage res = await this.httpClient.GetAsync($"{FEET_URL}search/{HtmlString(name)}");
+            HttpResponseMessage res = await this.httpClient.GetAsync($"{(this.Gender == Genders.Women ? FEET_URL : FEET_URL_MEN)}search/{HtmlString(name)}");
 
             HtmlDocument htmlDocument = new();
             htmlDocument.LoadHtml(await res.Content.ReadAsStringAsync());

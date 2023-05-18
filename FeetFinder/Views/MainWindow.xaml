@@ -3,10 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:FeetFinder.ViewModels"
         xmlns:local="clr-namespace:FeetFinder"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
-    <Grid>
-
-    </Grid>
+        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" Background="Transparent" AllowsTransparency="True">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+    <Border CornerRadius="8" Background="#333333">
+        <Grid>
+            
+        </Grid>
+    </Border>
 </Window>

@@ -6,6 +6,8 @@
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <Version>1.0.0</Version>
+    <Authors>Markus Wackermann</Authors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,11 +18,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\" />
+    <Folder Include="Logic\" />
+    <Folder Include="ViewLogic\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FeetScraper\FeetScraper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="neXn.Lib.Wpf">
+      <HintPath>..\Libs\neXn.Lib.Wpf.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

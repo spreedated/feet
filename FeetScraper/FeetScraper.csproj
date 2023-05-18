@@ -6,6 +6,8 @@
     <Nullable>disable</Nullable>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>feetscraper.snk</AssemblyOriginatorKeyFile>
+    <Version>1.0.0</Version>
+    <Authors>Markus Wackermann</Authors>
   </PropertyGroup>
 
   <ItemGroup>

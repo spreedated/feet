@@ -9,6 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeetScraperTests", "FeetScr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeetScraper", "FeetScraper\FeetScraper.csproj", "{120E9331-4131-4F26-B275-07F233F6D250}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6C3AE833-05A0-41F0-AFB3-A1569B7431F4}"
+	ProjectSection(SolutionItems) = preProject
+		Libs\neXn.Lib.Wpf.dll = Libs\neXn.Lib.Wpf.dll
+		Libs\neXn.Lib.Wpf.xml = Libs\neXn.Lib.Wpf.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

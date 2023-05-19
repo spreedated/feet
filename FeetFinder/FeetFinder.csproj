@@ -11,10 +11,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\feet.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MahApps.Metro.IconPacks.FontAwesome" Version="4.11.0" />
     <PackageReference Include="MaterialDesignColors" Version="2.1.4" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="SharpVectors" Version="1.8.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,9 +32,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="neXn.Lib.Wpf">
-      <HintPath>..\Libs\neXn.Lib.Wpf.dll</HintPath>
+    <Reference Include="neXn.Lib.Availability">
+      <HintPath>..\Libraries\neXn.Lib.Availability.dll</HintPath>
     </Reference>
+    <Reference Include="neXn.Lib.Wpf">
+      <HintPath>..\Libraries\neXn.Lib.Wpf.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\feet.svg" />
   </ItemGroup>
 
 </Project>

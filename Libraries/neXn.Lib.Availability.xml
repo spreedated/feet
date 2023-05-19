@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>neXn.Lib.Availability</name>
+    </assembly>
+    <members>
+        <member name="T:neXn.Lib.Availability.Models.Inspectable.Protocol">
+            <summary>
+            None is eqal to ping only
+            </summary>
+        </member>
+        <member name="P:neXn.Lib.Availability.Models.Inspectable.Protocols">
+            <summary>
+            Flagable enumeration of protocols to scan for
+            </summary>
+        </member>
+        <member name="P:neXn.Lib.Availability.Models.Inspectable.Host">
+            <summary>
+            Host name or IPv4
+            </summary>
+        </member>
+        <member name="P:neXn.Lib.Availability.Models.Inspectable.Port">
+            <summary>
+            Service Port
+            </summary>
+        </member>
+        <member name="P:neXn.Lib.Availability.Models.Inspectable.Timeout">
+            <summary>
+            Connection timeout in ms
+            </summary>
+        </member>
+        <member name="M:neXn.Lib.Availability.Scan.#ctor(System.Collections.Generic.IEnumerable{neXn.Lib.Availability.Models.Inspectable})">
+            <summary>
+            Adds a range of inspectables
+            </summary>
+            <param name="inspectables"></param>
+        </member>
+        <member name="M:neXn.Lib.Availability.Scan.#ctor(neXn.Lib.Availability.Models.Inspectable)">
+            <summary>
+            Adds a single Inspectable
+            </summary>
+            <param name="inspectable"></param>
+        </member>
+        <member name="M:neXn.Lib.Availability.Scan.#ctor(neXn.Lib.Availability.Models.Inspectable[])">
+            <summary>
+            Adds a range of inspecatables
+            </summary>
+            <param name="inspectables"></param>
+        </member>
+        <member name="M:neXn.Lib.Availability.Scan.Start(System.Boolean)">
+            <summary>
+            Starts the process of all inspectables
+            </summary>
+            <param name="runAsync">Runs in the Background, you should subscribe to the <see cref="E:neXn.Lib.Availability.Scan.Completed">Completed</see> event</param>
+        </member>
+    </members>
+</doc>

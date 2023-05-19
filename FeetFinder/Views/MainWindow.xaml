@@ -6,13 +6,13 @@
         xmlns:vm="clr-namespace:FeetFinder.ViewModels"
         xmlns:local="clr-namespace:FeetFinder"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" Background="Transparent" AllowsTransparency="True" WindowStyle="None">
+        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" Background="Transparent" AllowsTransparency="True" WindowStyle="None" MouseDown="Window_MouseDown">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
     <Border CornerRadius="8" Background="#333333">
         <Grid>
-            
+            <Frame Content="{Binding MainFramePage}"/>
         </Grid>
     </Border>
 </Window>

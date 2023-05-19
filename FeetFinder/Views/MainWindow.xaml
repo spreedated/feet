@@ -4,15 +4,57 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:FeetFinder.ViewModels"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        xmlns:fa="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:FeetFinder"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" Background="Transparent" AllowsTransparency="True" WindowStyle="None" MouseDown="Window_MouseDown">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
+    
+    
     <Border CornerRadius="8" Background="#333333">
         <Grid>
-            <Frame Content="{Binding MainFramePage}"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="94"/>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="144" Height="36" Margin="10" Orientation="Horizontal">
+                <Button Foreground="WhiteSmoke" Background="Transparent" BorderThickness="0" Cursor="Hand" Width="48">
+                    <Button.Content>
+                        <fa:FontAwesome Kind="UnderlineSolid" />
+                    </Button.Content>
+                </Button>
+                <Button Foreground="WhiteSmoke" Background="Transparent" BorderThickness="0" Cursor="Hand" Width="48">
+                    <Button.Content>
+                        <fa:FontAwesome Kind="SquareRegular" />
+                    </Button.Content>
+                </Button>
+                <Button Foreground="WhiteSmoke" BorderThickness="0" Cursor="Hand" Width="48" Background="DarkRed" Command="{Binding CloseCommand}" CommandParameter="{Binding Instance}">
+                    <Button.Content>
+                        <fa:FontAwesome Kind="FastForwardSolid" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="10" Orientation="Horizontal">
+                <Image Source="{svgc:SvgImage Source=/resources/feet.svg}" Height="64" HorizontalAlignment="Left" Margin="12,0,0,0"/>
+                <Label Content="FeetFinder" VerticalAlignment="Center" FontWeight="Bold" FontSize="36" Margin="24,0,0,0" FontStyle="Italic"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="0" Grid.Row="1" Background="Red" Margin="10">
+                
+            </StackPanel>
+
+            <Frame Grid.Column="1" Grid.Row="1" Content="{Binding MainFramePage}" NavigationUIVisibility="Hidden" Margin="10"/>
+            
+            <Frame Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Source="loading.xaml" NavigationUIVisibility="Hidden" Margin="10" />
         </Grid>
     </Border>
 </Window>

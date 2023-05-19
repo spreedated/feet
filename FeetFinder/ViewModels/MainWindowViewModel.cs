@@ -1,11 +1,16 @@
 ﻿using neXn.Lib.Wpf.ViewLogic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace FeetFinder.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        #region Commands
+        public ICommand CloseCommand { get; } = new RelayCommand<Window>((w) => w?.Close());
+        #endregion
+
         #region BindableProperties
         private Window _Instance;
         public Window Instance
@@ -21,7 +26,7 @@ namespace FeetFinder.ViewModels
             }
         }
 
-        private Page _MainFramePage = new Views.Loading();
+        private Page _MainFramePage;
         public Page MainFramePage
         {
             get

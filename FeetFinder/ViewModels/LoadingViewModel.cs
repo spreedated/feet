@@ -11,6 +11,8 @@ using System.Windows;
 using System.Windows.Controls;
 using static FeetScraper.Logic.Constants;
 using System.Threading;
+using FeetFinder.Attributes;
+using System.Reflection;
 
 namespace FeetFinder.ViewModels
 {
@@ -50,20 +52,51 @@ namespace FeetFinder.ViewModels
         {
             Task.Factory.StartNew(() =>
             {
-                this.ProgressbarValue += 10.0d;
-                Thread.Sleep(5000);
-                this.ProgressbarValue += 10.0d;
-                if (this.CheckInternetAvailabilty().All(x => x.Results.Values.All(y => y == Inspectable.Result.Available)))
+                Thread.Sleep(2400);
+
+                if (this.StartLoading().All(x => x))
                 {
-                    this.Instance.Dispatcher.Invoke(() =>
-                    {
-                        ((MainWindowViewModel)((MainWindow)Application.Current.MainWindow).DataContext).MainFramePage = null;
-                    });
+                    Thread.Sleep(2400);
+                    this.Instance.Dispatcher.Invoke(() => ((MainWindowViewModel)((MainWindow)Application.Current.MainWindow).DataContext).MainFramePage = null);
                 }
             });
         }
 
-        private IEnumerable<Inspectable> CheckInternetAvailabilty()
+        private IEnumerable<bool> StartLoading()
+        {
+            IEnumerable<MethodInfo> p = typeof(LoadingViewModel).GetMethods(BindingFlags.Public | BindingFlags.Instance)?.Where(x => x.GetCustomAttributes(false).Any(y => y.GetType() == typeof(PreloadAttribute)));
+
+            if (p == null || !p.Any())
+            {
+                return Array.Empty<bool>();
+            }
+
+            List<bool> results = new();
+
+            float step = (float)Math.Round(100 / (float)p.Count(), 2);
+
+            foreach (MethodInfo pMethod in p)
+            {
+                if (pMethod.ReturnType == null)
+                {
+                    pMethod.Invoke(this, null);
+                    this.ProgressbarValue += step;
+                    results.Add(true);
+                    continue;
+                }
+
+                bool result = (bool)pMethod.Invoke(this, null);
+                results.Add(result);
+                this.ProgressbarValue += step;
+            }
+
+            this.ProgressbarValue = 100.0d;
+
+            return results;
+        }
+
+        [Preload]
+        public bool CheckInternetAvailabilty()
         {
             Inspectable[] ins = new Inspectable[]
             {
@@ -76,7 +109,7 @@ namespace FeetFinder.ViewModels
 
             s.Start();
 
-            return s.Inspectables;
+            return s.Inspectables.All(x => x.Results.Values.All(y => y == Inspectable.Result.Available));
         }
     }
 }

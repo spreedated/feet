@@ -1,4 +1,5 @@
-﻿using neXn.Lib.Wpf.ViewLogic;
+﻿using FeetFinder.Views;
+using neXn.Lib.Wpf.ViewLogic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -9,9 +10,32 @@ namespace FeetFinder.ViewModels
     {
         #region Commands
         public ICommand CloseCommand { get; } = new RelayCommand<Window>((w) => w?.Close());
+        public ICommand SearchCommand { get; } = new RelayCommand<MainWindow>((w) =>
+        {
+            
+        });
+        public ICommand HomeCommand { get; } = new RelayCommand<MainWindow>((w) =>
+        {
+            MainWindowViewModel vm = (MainWindowViewModel)w.DataContext;
+            vm.MainFramePage = new Home();
+        });
         #endregion
 
         #region BindableProperties
+        private Visibility _Loading = Visibility.Visible;
+        public Visibility Loading
+        {
+            get
+            {
+                return this._Loading;
+            }
+            set
+            {
+                this._Loading = value;
+                base.OnPropertyChanged(nameof(this.Loading));
+            }
+        }
+
         private Window _Instance;
         public Window Instance
         {

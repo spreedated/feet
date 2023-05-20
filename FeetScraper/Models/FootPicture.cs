@@ -20,7 +20,7 @@ namespace FeetScraper.Models
         {
             get
             {
-                return string.Format(FEET_PICTURE_URLTEMPLATE, this.Name.Replace(' ', '-'), this.Id);
+                return string.Format(FEET_PICTURE_URLTEMPLATE, this.Name?.Replace(' ', '-'), this.Id);
             }
         }
         public IEnumerable<FootTag> FootTags { get; set; }

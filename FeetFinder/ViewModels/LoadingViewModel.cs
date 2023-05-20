@@ -57,7 +57,7 @@ namespace FeetFinder.ViewModels
                 if (this.StartLoading().All(x => x))
                 {
                     Thread.Sleep(2400);
-                    this.Instance.Dispatcher.Invoke(() => ((MainWindowViewModel)((MainWindow)Application.Current.MainWindow).DataContext).MainFramePage = null);
+                    this.Instance.Dispatcher.Invoke(() => ((MainWindowViewModel)((MainWindow)Application.Current.MainWindow).DataContext).Loading = Visibility.Collapsed);
                 }
             });
         }

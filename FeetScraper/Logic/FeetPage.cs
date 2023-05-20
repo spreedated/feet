@@ -245,7 +245,7 @@ namespace FeetScraper.Logic
         private async Task<HtmlNode> DownloadSourcecode()
         {
             this.httpClient.Timeout = new TimeSpan(0, 0, 10);
-            HttpResponseMessage res = await this.httpClient.GetAsync($"{FEET_URL}{HtmlString(this.Name)}");
+            HttpResponseMessage res = await this.httpClient.GetAsync($"{FEET_URL}{this.Name.Replace(' ', '_')}");
 
             HtmlDocument htmlDocument = new();
             htmlDocument.LoadHtml(await res.Content.ReadAsStringAsync());

@@ -21,13 +21,21 @@
         <!-- # ### # -->
 
         <!-- Content -->
-        <StackPanel Orientation="Vertical" d:Visibility="Visible" Visibility="{Binding Loading, Converter={cv:CollapsedToVisibleConverter}}">
-            <StackPanel Orientation="Horizontal">
+        <Grid d:Visibility="Visible" Visibility="{Binding Loading, Converter={cv:CollapsedToVisibleConverter}}" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Label Content="Feet of the Day" FontSize="24"/>
                 <Label Content="{Binding Girlname}" d:Content="Feetname" FontSize="24" FontStyle="Italic" Margin="60,16,0,0"/>
-                <Label Content="{Binding FotdFeet.Count}" ContentStringFormat="({0} pics)" d:Content="Feetname" FontSize="24" FontStyle="Italic" Margin="0,16,0,0"/>
+                <Label Content="{Binding FeetpictureCount}" ContentStringFormat="({0} pics)" d:Content="Feetname" FontSize="24" FontStyle="Italic" Margin="0,16,0,0"/>
             </StackPanel>
-        </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Visibility="{Binding PageControlsVisibility}">
+                <Label Content="Page" FontSize="24" VerticalAlignment="Center"/>
+                <Label Content="{Binding PageIndex}" d:Content="1" FontSize="24" VerticalAlignment="Center"/>
+                <Label Content="/" FontSize="24" VerticalAlignment="Center"/>
+                <Label Content="{Binding PagesMax}" d:Content="19" FontSize="24" VerticalAlignment="Center"/>
+                <Button Content="&lt;&lt;" VerticalAlignment="Center" Foreground="WhiteSmoke" Margin="10,0,5,0" />
+                <Button Content="&gt;&gt;" VerticalAlignment="Center" Foreground="WhiteSmoke" Command="{Binding NextPage}" CommandParameter="{Binding Instance}" />
+            </StackPanel>
+        </Grid>
         <ListBox ItemsSource="{Binding FotdFeet}" Margin="0,60,0,0" SelectedItem="{Binding SelectedFotd, Mode=OneWayToSource}" MouseDoubleClick="ListBox_MouseDoubleClick">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>

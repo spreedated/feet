@@ -1,4 +1,5 @@
-﻿using static FeetScraper.Logic.Constants;
+﻿using System;
+using static FeetScraper.Logic.Constants;
 
 namespace FeetScraper.Models
 {
@@ -12,5 +13,6 @@ namespace FeetScraper.Models
                 return $"{FEET_URL}{this.Name.Replace(' ', '_')}";
             }
         }
+        public DateTime Date { get; set; }
     }
 }

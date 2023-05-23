@@ -24,10 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Logic\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FeetScraper\FeetScraper.csproj" />
   </ItemGroup>
 

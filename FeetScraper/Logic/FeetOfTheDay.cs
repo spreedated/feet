@@ -55,7 +55,8 @@ namespace FeetScraper.Logic
 
             this.FeetOfTheDayResponse = new()
             {
-                Name = RetrieveName(source)
+                Name = RetrieveName(source),
+                Date = DateTime.Now.Date
             };
 
 

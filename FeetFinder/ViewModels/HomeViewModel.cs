@@ -8,11 +8,20 @@ using System.Windows;
 using System.Windows.Controls;
 using FeetScraper.Logic;
 using System.Collections.ObjectModel;
+using FeetFinder.Logic;
+using System.Windows.Input;
 
 namespace FeetFinder.ViewModels
 {
     public class HomeViewModel : ViewModelBase
     {
+        public ICommand NextPage { get; } = new RelayCommand<Page>((w) =>
+        {
+            HomeViewModel vm = ((HomeViewModel)w.DataContext);
+            vm.PageIndex += 1;
+            vm.FotdFeet = new(RuntimeStorage.FeetofthedayResponse.Feet.Skip(vm.PageIndex * 50).Take(50));
+        });
+
         #region BindableProperties
         private string _Girlname;
         public string Girlname
@@ -67,6 +76,7 @@ namespace FeetFinder.ViewModels
             {
                 this._FotdFeet = value;
                 base.OnPropertyChanged(nameof(this.FotdFeet));
+                this.PagesMax = (int)Math.Ceiling((double)RuntimeStorage.FeetofthedayResponse.Feet.Count() / 50);
             }
         }
 
@@ -83,6 +93,63 @@ namespace FeetFinder.ViewModels
                 base.OnPropertyChanged(nameof(this.SelectedFotd));
             }
         }
+
+        private int _FeetpictureCount;
+        public int FeetpictureCount
+        {
+            get
+            {
+                return this._FeetpictureCount;
+            }
+            set
+            {
+                this._FeetpictureCount = value;
+                base.OnPropertyChanged(nameof(this.FeetpictureCount));
+            }
+        }
+
+        private int _PageIndex = 1;
+        public int PageIndex
+        {
+            get
+            {
+                return this._PageIndex;
+            }
+            set
+            {
+                this._PageIndex = value;
+                base.OnPropertyChanged(nameof(this.PageIndex));
+            }
+        }
+
+        private int _PagesMax = 1;
+        public int PagesMax
+        {
+            get
+            {
+                return this._PagesMax;
+            }
+            set
+            {
+                this._PagesMax = value;
+                base.OnPropertyChanged(nameof(this.PagesMax));
+                this.PageControlsVisibility = this._PagesMax > 1 ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        private Visibility _PageControlsVisibility = Visibility.Collapsed;
+        public Visibility PageControlsVisibility
+        {
+            get
+            {
+                return this._PageControlsVisibility;
+            }
+            set
+            {
+                this._PageControlsVisibility = value;
+                base.OnPropertyChanged(nameof(this.PageControlsVisibility));
+            }
+        }
         #endregion
 
         public HomeViewModel()
@@ -91,15 +158,21 @@ namespace FeetFinder.ViewModels
             {
                 this.Loading = Visibility.Visible;
 
-                FeetOfTheDay fotd = new();
-                fotd.RetrieveAsync().Wait();
-                this.Girlname = fotd.FeetOfTheDayResponse.Name;
+                if (RuntimeStorage.Feetoftheday == null || RuntimeStorage.Feetoftheday.Date != DateTime.Now.Date)
+                {
+                    FeetOfTheDay fotd = new();
+                    fotd.RetrieveAsync().Wait();
+                    this.Girlname = fotd.FeetOfTheDayResponse.Name;
 
-                FeetPage fp = new(this.Girlname);
+                    //FeetPage fp = new(this.Girlname);
+                    FeetPage fp = new("Jeri Ryan");
 
-                FeetScraper.Models.PageResponse r = fp.RetrieveAsync().Result;
+                    RuntimeStorage.FeetofthedayResponse = fp.RetrieveAsync().Result;
+                    RuntimeStorage.Feetoftheday = fotd.FeetOfTheDayResponse;
+                }
 
-                this.FotdFeet = new(r.Feet);
+                this.FeetpictureCount = RuntimeStorage.FeetofthedayResponse.Feet.Count();
+                this.FotdFeet = new(RuntimeStorage.FeetofthedayResponse.Feet.Skip(0).Take(50));
 
                 this.Loading = Visibility.Collapsed;
             });

@@ -38,7 +38,7 @@
             </Image.RenderTransform>
         </Image>
         
-        <Label Grid.Row="1" Margin="0,0,0,0" FontSize="24" FontWeight="Bold" Content="Feet are loading ..." HorizontalAlignment="Center"/>
+        <Label Grid.Row="1" Margin="0,0,0,0" FontSize="24" FontWeight="Bold" Content="Loading ..." HorizontalAlignment="Center"/>
         <ProgressBar Grid.Row="2" Height="12" Margin="10,0,10,0" Value="{Binding ProgressbarValue}" d:Value="30" />
     </Grid>
 </Page>

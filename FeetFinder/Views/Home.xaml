@@ -25,28 +25,21 @@
             <StackPanel Orientation="Horizontal">
                 <Label Content="Feet of the Day" FontSize="24"/>
                 <Label Content="{Binding Girlname}" d:Content="Feetname" FontSize="24" FontStyle="Italic" Margin="60,16,0,0"/>
-            </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <!--<DataGrid ItemsSource="{Binding FotdFeet, Mode=OneWay}" IsReadOnly="True" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Image" Width="100">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Image Source="{Binding Link}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>-->
-                <ListView  ItemsSource="{Binding FotdFeet}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding Link}" Width="100"/>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <Label Content="{Binding FotdFeet.Count}" ContentStringFormat="({0} pics)" d:Content="Feetname" FontSize="24" FontStyle="Italic" Margin="0,16,0,0"/>
             </StackPanel>
         </StackPanel>
+        <ListBox ItemsSource="{Binding FotdFeet}" Margin="0,60,0,0" SelectedItem="{Binding SelectedFotd, Mode=OneWayToSource}" MouseDoubleClick="ListBox_MouseDoubleClick">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding Link}" Width="100"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <!-- # ### # -->
     </Grid>
 </Page>

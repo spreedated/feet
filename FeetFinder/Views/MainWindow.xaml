@@ -6,60 +6,45 @@
         xmlns:vm="clr-namespace:FeetFinder.ViewModels"
         xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         xmlns:fa="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:cv="clr-namespace:FeetFinder.ViewLogic"
         xmlns:local="clr-namespace:FeetFinder"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" Background="Transparent" AllowsTransparency="True" WindowStyle="None" MouseDown="Window_MouseDown">
+        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" Background="Transparent" AllowsTransparency="True" WindowStyle="None" ResizeMode="CanResizeWithGrip" MouseDown="Window_MouseDown" StateChanged="Window_StateChanged">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
-    
-    
+
     <Border CornerRadius="8" Background="#333333">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="94"/>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        <Grid x:Name="MainGrid">
+            <Grid d:Visibility="Visible" Visibility="{Binding Loading, Converter={cv:CollapsedToVisibleConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="56"/>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-            <StackPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="144" Height="36" Margin="10" Orientation="Horizontal">
-                <Button Foreground="WhiteSmoke" Background="Transparent" BorderThickness="0" Cursor="Hand" Width="48">
-                    <Button.Content>
-                        <fa:FontAwesome Kind="UnderlineSolid" />
-                    </Button.Content>
-                </Button>
-                <Button Foreground="WhiteSmoke" Background="Transparent" BorderThickness="0" Cursor="Hand" Width="48">
-                    <Button.Content>
-                        <fa:FontAwesome Kind="SquareRegular" />
-                    </Button.Content>
-                </Button>
-                <Button Foreground="WhiteSmoke" BorderThickness="0" Cursor="Hand" Width="48" Background="DarkRed" Command="{Binding CloseCommand}" CommandParameter="{Binding Instance}">
-                    <Button.Content>
-                        <fa:FontAwesome Kind="FastForwardSolid" />
-                    </Button.Content>
-                </Button>
-            </StackPanel>
-
-            <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="10" Orientation="Horizontal">
-                <Image Source="{svgc:SvgImage Source=/resources/feet.svg}" d:Height="64" d:Width="64" Height="64" HorizontalAlignment="Left" Margin="12,0,0,0"/>
-                <Label Content="FeetFinder" VerticalAlignment="Center" FontWeight="Bold" FontSize="36" Margin="24,0,0,0" FontStyle="Italic"/>
-            </StackPanel>
-
-            <Grid Grid.Column="0" Grid.Row="1" Margin="10">
-                <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-                    <Button Content="Home" Foreground="WhiteSmoke" Margin="0,0,0,10" Command="{Binding HomeCommand}" CommandParameter="{Binding Instance}"/>
-                    <Button Content="Search" Foreground="WhiteSmoke" Margin="0,0,0,10" Command="{Binding SearchCommand}" CommandParameter="{Binding Instance}"/>
+                <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="10" Orientation="Horizontal">
+                    <Image Source="{svgc:SvgImage Source=/resources/feet.svg}" d:Height="32" d:Width="32" Height="32" HorizontalAlignment="Left" Margin="12,0,0,0"/>
+                    <Label Content="FeetFinder" VerticalAlignment="Center" FontWeight="Bold" FontSize="18" Margin="24,0,0,0" FontStyle="Italic"/>
                 </StackPanel>
-                <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
-                    <Button Content="Exit" Foreground="WhiteSmoke" Margin="0,10,0,0" Command="{Binding CloseCommand}" CommandParameter="{Binding Instance}"/>
-                </StackPanel>
+
+                <Grid Grid.Column="0" Grid.Row="1" Margin="10">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                        <Button Content="Home" Foreground="WhiteSmoke" Margin="0,0,0,10" Command="{Binding HomeCommand}" CommandParameter="{Binding Instance}"/>
+                        <Button Content="Search" Foreground="WhiteSmoke" Margin="0,0,0,10" Command="{Binding SearchCommand}" CommandParameter="{Binding Instance}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
+                        <Button Content="Exit" Foreground="WhiteSmoke" Margin="0,10,0,0" Command="{Binding CloseCommand}" CommandParameter="{Binding Instance}"/>
+                    </StackPanel>
+                </Grid>
+
+                <Frame Grid.Column="1" Grid.Row="1" Content="{Binding MainFramePage}" NavigationUIVisibility="Hidden" Margin="10"/>
+
             </Grid>
-
-            <Frame Grid.Column="1" Grid.Row="1" Content="{Binding MainFramePage}" NavigationUIVisibility="Hidden" Margin="10"/>
-            
+        
             <Frame Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Source="loading.xaml" NavigationUIVisibility="Hidden" Margin="10" Visibility="{Binding Loading}" />
         </Grid>
     </Border>

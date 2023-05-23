@@ -1,4 +1,5 @@
 ﻿using FeetFinder.Views;
+using MahApps.Metro.IconPacks;
 using neXn.Lib.Wpf.ViewLogic;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,9 +20,36 @@ namespace FeetFinder.ViewModels
             MainWindowViewModel vm = (MainWindowViewModel)w.DataContext;
             vm.MainFramePage = new Home();
         });
+        public ICommand MaximizeCommand { get; } = new RelayCommand<MainWindow>((w) =>
+        {
+            if (w.WindowState == WindowState.Maximized)
+            {
+                w.WindowState = WindowState.Normal;
+                return;
+            }
+            w.WindowState = WindowState.Maximized;
+        });
+        public ICommand MinimizeCommand { get; } = new RelayCommand<MainWindow>((w) =>
+        {
+            w.WindowState = WindowState.Minimized;
+        });
         #endregion
 
         #region BindableProperties
+        private Visibility _WindowIcon = Visibility.Visible;
+        public Visibility WindowIcon
+        {
+            get
+            {
+                return this._WindowIcon;
+            }
+            set
+            {
+                this._WindowIcon = value;
+                base.OnPropertyChanged(nameof(this.WindowIcon));
+            }
+        }
+
         private Visibility _Loading = Visibility.Visible;
         public Visibility Loading
         {
@@ -33,6 +61,7 @@ namespace FeetFinder.ViewModels
             {
                 this._Loading = value;
                 base.OnPropertyChanged(nameof(this.Loading));
+                this.MainFramePage = new Home();
             }
         }
 

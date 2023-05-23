@@ -69,6 +69,20 @@ namespace FeetFinder.ViewModels
                 base.OnPropertyChanged(nameof(this.FotdFeet));
             }
         }
+
+        private FeetScraper.Models.FootPicture _SelectedFotd;
+        public FeetScraper.Models.FootPicture SelectedFotd
+        {
+            get
+            {
+                return this._SelectedFotd;
+            }
+            set
+            {
+                this._SelectedFotd = value;
+                base.OnPropertyChanged(nameof(this.SelectedFotd));
+            }
+        }
         #endregion
 
         public HomeViewModel()

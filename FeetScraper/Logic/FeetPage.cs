@@ -61,7 +61,7 @@ namespace FeetScraper.Logic
                 RatingStats = RetrieveFeetRatingStats(source),
                 Birthday = RetrieveBirthday(source),
                 Birthplace = RetrieveBirthplace(source),
-                Feet = RetrieveFootPictures(source, this.Name),
+                Feet = RetrieveFootPictures(source, this.Name).Reverse()
             };
 
             this.Completed?.Invoke(this, EventArgs.Empty);

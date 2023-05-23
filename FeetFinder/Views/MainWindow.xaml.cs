@@ -22,5 +22,15 @@ namespace FeetFinder.Views
                 this.DragMove();
             }
         }
+
+        private void Window_StateChanged(object sender, System.EventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+            {
+                ((MainWindowViewModel)this.DataContext).WindowIcon = Visibility.Collapsed;
+                return;
+            }
+            ((MainWindowViewModel)this.DataContext).WindowIcon = Visibility.Visible;
+        }
     }
 }

@@ -24,5 +24,22 @@ namespace FeetScraper.Models
                 return total;
             }
         }
+        public float FiveStarRating
+        {
+            get
+            {
+                if (this.Total <= 0)
+                {
+                    return 0.0f;
+                }
+
+                float beautiful = this.Beautiful * 5;
+                float nice = this.Nice * 4;
+                float okay = this.Okay * 3;
+                float bad = this.Bad * 2;
+
+                return (beautiful + nice + okay + bad + this.Ugly) / this.Total;
+            }
+        }
     }
 }

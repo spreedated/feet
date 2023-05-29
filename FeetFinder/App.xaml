@@ -10,6 +10,13 @@
                 <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="BlueGrey" SecondaryColor="Amber" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="FeetWindowStyle" TargetType="Window">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="AllowsTransparency" Value="True"/>
+                <Setter Property="WindowStyle" Value="None"/>
+                <Setter Property="ResizeMode" Value="CanResizeWithGrip"/>
+            </Style>
         </ResourceDictionary>
 
         

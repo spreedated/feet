@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
+﻿using FeetFinder.Logic;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -13,5 +10,14 @@ namespace FeetFinder
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            string directory = Path.GetDirectoryName(typeof(App).Assembly.Location);
+            RuntimeStorage.DownloadService = new(Path.Combine(directory, "downloads.json"));
+
+            RuntimeStorage.DownloadService.LoadAsync();
+        }
     }
 }

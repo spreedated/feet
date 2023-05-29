@@ -6,13 +6,20 @@
       xmlns:local="clr-namespace:FeetFinder.Views"
       xmlns:vm="clr-namespace:FeetFinder.ViewModels"
       xmlns:cv="clr-namespace:FeetFinder.ViewLogic"
+      xmlns:ve="clr-namespace:FeetFinder.ViewElements"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="1300"
       Title="Home">
     <Page.DataContext>
         <vm:HomeViewModel/>
     </Page.DataContext>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        
         <!-- Loading -->
         <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Width="320" Height="92" d:Visibility="Collapsed" Visibility="{Binding Loading}">
             <Label Content="Loading ..." FontSize="32" HorizontalAlignment="Center"/>
@@ -20,23 +27,44 @@
         </StackPanel>
         <!-- # ### # -->
 
-        <!-- Content -->
-        <Grid d:Visibility="Visible" Visibility="{Binding Loading, Converter={cv:CollapsedToVisibleConverter}}" VerticalAlignment="Top">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <!-- Header -->
+        <Grid Grid.Row="0" d:Visibility="Visible" Visibility="{Binding Loading, Converter={cv:CollapsedToVisibleConverter}}" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
                 <Label Content="Feet of the Day" FontSize="24"/>
-                <Label Content="{Binding Girlname}" d:Content="Feetname" FontSize="24" FontStyle="Italic" Margin="60,16,0,0"/>
-                <Label Content="{Binding FeetpictureCount}" ContentStringFormat="({0} pics)" d:Content="Feetname" FontSize="24" FontStyle="Italic" Margin="0,16,0,0"/>
+                <Label Content="{Binding Girlname}" d:Content="Girlame" FontSize="24" FontStyle="Italic" Margin="60,16,0,0"/>
+                <Label Content="{Binding FeetpictureCount}" ContentStringFormat="({0} pics)" d:Content="42" FontSize="24" FontStyle="Italic" Margin="0,16,0,0"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Visibility="{Binding PageControlsVisibility}">
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="14,0,0,0">
+                <ve:StarRatingFeet Rating="{Binding AverageRating, Mode=OneWay}" d:Rating="3.87"/>
+                <StackPanel Orientation="Horizontal" Margin="14,0,0,0">
+                    <StackPanel>
+                        <Label Content="{Binding Shoesize, Mode=OneWay, TargetNullValue=[Unknown]}" d:Content="9.5" ContentStringFormat="Shoesize: {0}" />
+                        <Label Content="{Binding Birthdate, Mode=OneWay, TargetNullValue=[Unknown]}" d:Content="01.07.1987" ContentStringFormat="Birthday: {0:D}"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <Label Content="{Binding Birthplace, Mode=OneWay, TargetNullValue=[Unknown]}" d:Content="Somewhere" ContentStringFormat="Birthplace: {0}" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="{Binding PageControlsVisibility}">
                 <Label Content="Page" FontSize="24" VerticalAlignment="Center"/>
                 <Label Content="{Binding PageIndex}" d:Content="1" FontSize="24" VerticalAlignment="Center"/>
                 <Label Content="/" FontSize="24" VerticalAlignment="Center"/>
                 <Label Content="{Binding PagesMax}" d:Content="19" FontSize="24" VerticalAlignment="Center"/>
-                <Button Content="&lt;&lt;" VerticalAlignment="Center" Foreground="WhiteSmoke" Margin="10,0,5,0" />
-                <Button Content="&gt;&gt;" VerticalAlignment="Center" Foreground="WhiteSmoke" Command="{Binding NextPage}" CommandParameter="{Binding Instance}" />
+                <Button Content="&lt;&lt;" VerticalAlignment="Center" Foreground="WhiteSmoke" Command="{Binding PrevPage}" CommandParameter="{Binding Instance}" Margin="10,0,5,0" IsEnabled="{Binding PrevPageEnabled}" />
+                <Button Content="&gt;&gt;" VerticalAlignment="Center" Foreground="WhiteSmoke" Command="{Binding NextPage}" CommandParameter="{Binding Instance}" IsEnabled="{Binding NextPageEnabled}" />
             </StackPanel>
         </Grid>
-        <ListBox ItemsSource="{Binding FotdFeet}" Margin="0,60,0,0" SelectedItem="{Binding SelectedFotd, Mode=OneWayToSource}" MouseDoubleClick="ListBox_MouseDoubleClick">
+        <!-- # ### # -->
+
+        <!-- Main -->
+        <ListBox Grid.Row="1" ItemsSource="{Binding FotdFeet}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,60,0,0" SelectedItem="{Binding SelectedFotd, Mode=OneWayToSource}" MouseDoubleClick="ListBox_MouseDoubleClick" VirtualizingStackPanel.IsVirtualizing="True">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel/>
@@ -48,6 +76,12 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <!-- # ### # -->
+
+        <!-- Footer -->
+        <Grid Grid.Row="2">
+            <Label Content="{Binding FotdFeet.Count}" ContentStringFormat="Showing {0} pictures"/>
+        </Grid>
         <!-- # ### # -->
     </Grid>
 </Page>

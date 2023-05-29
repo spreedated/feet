@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FeetFinder.Views"
         xmlns:vm="clr-namespace:FeetFinder.ViewModels"
         mc:Ignorable="d"
-        Title="PictureWindow" d:Height="800" d:Width="450" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" Background="Transparent" AllowsTransparency="True" WindowStyle="None" ResizeMode="CanResizeWithGrip" MouseDown="Window_MouseDown" MaxHeight="1000" MaxWidth="1000">
+        Title="PictureWindow" d:Height="800" d:Width="450" Style="{StaticResource FeetWindowStyle}" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" MouseDown="Window_MouseDown" MaxHeight="1000" MaxWidth="1000">
     <Window.DataContext>
         <vm:PictureWindowViewModel/>
     </Window.DataContext>

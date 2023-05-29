@@ -22,7 +22,9 @@ namespace FeetScraper
                     return null;
                 }
 
-                return await p.Content.ReadAsByteArrayAsync();
+                footPicture.Picture = await p.Content.ReadAsByteArrayAsync();
+
+                return footPicture.Picture;
             }
         }
     }

@@ -10,6 +10,7 @@ using FeetScraper.Logic;
 using System.Collections.ObjectModel;
 using FeetFinder.Logic;
 using System.Windows.Input;
+using FeetFinder.Views;
 
 namespace FeetFinder.ViewModels
 {
@@ -18,8 +19,27 @@ namespace FeetFinder.ViewModels
         public ICommand NextPage { get; } = new RelayCommand<Page>((w) =>
         {
             HomeViewModel vm = ((HomeViewModel)w.DataContext);
-            vm.PageIndex += 1;
-            vm.FotdFeet = new(RuntimeStorage.FeetofthedayResponse.Feet.Skip(vm.PageIndex * 50).Take(50));
+
+            if (vm.PageIndex + 1 > vm.PagesMax)
+            {
+                return;
+            }
+
+            vm.PageIndex++;
+            vm.FotdFeet = new(RuntimeStorage.FeetofthedayResponse.Feet.Skip((vm.PageIndex -1) * 55).Take(55));
+        });
+
+        public ICommand PrevPage { get; } = new RelayCommand<Page>((w) =>
+        {
+            HomeViewModel vm = ((HomeViewModel)w.DataContext);
+
+            if (vm.PageIndex - 1 < 1)
+            {
+                return;
+            }
+
+            vm.PageIndex--;
+            vm.FotdFeet = new(RuntimeStorage.FeetofthedayResponse.Feet.Skip((vm.PageIndex - 1) * 55).Take(55));
         });
 
         #region BindableProperties
@@ -119,6 +139,18 @@ namespace FeetFinder.ViewModels
             {
                 this._PageIndex = value;
                 base.OnPropertyChanged(nameof(this.PageIndex));
+
+                if (this._PageIndex >= this._PagesMax)
+                {
+                    this.NextPageEnabled = false;
+                    this.PrevPageEnabled = true;
+                }
+
+                if (this._PageIndex <= 1)
+                {
+                    this.NextPageEnabled = true;
+                    this.PrevPageEnabled = false;
+                }
             }
         }
 
@@ -150,6 +182,90 @@ namespace FeetFinder.ViewModels
                 base.OnPropertyChanged(nameof(this.PageControlsVisibility));
             }
         }
+
+        private bool _NextPageEnabled = true;
+        public bool NextPageEnabled
+        {
+            get
+            {
+                return this._NextPageEnabled;
+            }
+            set
+            {
+                this._NextPageEnabled = value;
+                base.OnPropertyChanged(nameof(this.NextPageEnabled));
+            }
+        }
+
+        private bool _PrevPageEnabled;
+        public bool PrevPageEnabled
+        {
+            get
+            {
+                return this._PrevPageEnabled;
+            }
+            set
+            {
+                this._PrevPageEnabled = value;
+                base.OnPropertyChanged(nameof(this.PrevPageEnabled));
+            }
+        }
+
+        private float _AverageRating;
+        public float AverageRating
+        {
+            get
+            {
+                return this._AverageRating;
+            }
+            set
+            {
+                this._AverageRating = value;
+                base.OnPropertyChanged(nameof(this.AverageRating));
+            }
+        }
+
+        private float? _Shoesize;
+        public float? Shoesize
+        {
+            get
+            {
+                return this._Shoesize;
+            }
+            set
+            {
+                this._Shoesize = value;
+                base.OnPropertyChanged(nameof(this.Shoesize));
+            }
+        }
+
+        private string _Birthplace;
+        public string Birthplace
+        {
+            get
+            {
+                return this._Birthplace;
+            }
+            set
+            {
+                this._Birthplace = value;
+                base.OnPropertyChanged(nameof(this.Birthplace));
+            }
+        }
+
+        private DateTime? _Birthdate;
+        public DateTime? Birthdate
+        {
+            get
+            {
+                return this._Birthdate;
+            }
+            set
+            {
+                this._Birthdate = value;
+                base.OnPropertyChanged(nameof(this.Birthdate));
+            }
+        }
         #endregion
 
         public HomeViewModel()
@@ -161,18 +277,19 @@ namespace FeetFinder.ViewModels
                 if (RuntimeStorage.Feetoftheday == null || RuntimeStorage.Feetoftheday.Date != DateTime.Now.Date)
                 {
                     FeetOfTheDay fotd = new();
-                    fotd.RetrieveAsync().Wait();
-                    this.Girlname = fotd.FeetOfTheDayResponse.Name;
+                    RuntimeStorage.Feetoftheday = fotd.RetrieveAsync().Result;
 
-                    //FeetPage fp = new(this.Girlname);
-                    FeetPage fp = new("Jeri Ryan");
-
+                    FeetPage fp = new(RuntimeStorage.Feetoftheday.Name);
                     RuntimeStorage.FeetofthedayResponse = fp.RetrieveAsync().Result;
-                    RuntimeStorage.Feetoftheday = fotd.FeetOfTheDayResponse;
                 }
 
+                this.Girlname = RuntimeStorage.FeetofthedayResponse.Name;
+                this.AverageRating = RuntimeStorage.FeetofthedayResponse.RatingStats.FiveStarRating;
+                this.Birthdate = RuntimeStorage.FeetofthedayResponse.Birthday;
+                this.Birthplace = RuntimeStorage.FeetofthedayResponse.Birthplace;
+                this.Shoesize = RuntimeStorage.FeetofthedayResponse.ShoeSize;
                 this.FeetpictureCount = RuntimeStorage.FeetofthedayResponse.Feet.Count();
-                this.FotdFeet = new(RuntimeStorage.FeetofthedayResponse.Feet.Skip(0).Take(50));
+                this.FotdFeet = new(RuntimeStorage.FeetofthedayResponse.Feet.Skip(0).Take(55));
 
                 this.Loading = Visibility.Collapsed;
             });

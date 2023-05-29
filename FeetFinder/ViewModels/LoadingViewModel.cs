@@ -1,18 +1,17 @@
-﻿using neXn.Lib.Wpf.ViewLogic;
+﻿using FeetFinder.Attributes;
+using FeetFinder.Views;
+using neXn.Lib.Availability;
+using neXn.Lib.Availability.Models;
+using neXn.Lib.Wpf.ViewLogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
-using neXn.Lib.Availability;
-using neXn.Lib.Availability.Models;
-using FeetFinder.Views;
 using System.Windows;
 using System.Windows.Controls;
 using static FeetScraper.Logic.Constants;
-using System.Threading;
-using FeetFinder.Attributes;
-using System.Reflection;
 
 namespace FeetFinder.ViewModels
 {

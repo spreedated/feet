@@ -1,7 +1,4 @@
-﻿using FeetFinder.Views;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 

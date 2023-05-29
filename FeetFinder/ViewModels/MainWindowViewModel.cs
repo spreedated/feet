@@ -1,5 +1,4 @@
 ﻿using FeetFinder.Views;
-using MahApps.Metro.IconPacks;
 using neXn.Lib.Wpf.ViewLogic;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,16 +9,6 @@ namespace FeetFinder.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         #region Commands
-        public ICommand CloseCommand { get; } = new RelayCommand<Window>((w) => w?.Close());
-        public ICommand SearchCommand { get; } = new RelayCommand<MainWindow>((w) =>
-        {
-            
-        });
-        public ICommand HomeCommand { get; } = new RelayCommand<MainWindow>((w) =>
-        {
-            MainWindowViewModel vm = (MainWindowViewModel)w.DataContext;
-            vm.MainFramePage = new Home();
-        });
         public ICommand MaximizeCommand { get; } = new RelayCommand<MainWindow>((w) =>
         {
             if (w.WindowState == WindowState.Maximized)
@@ -61,7 +50,7 @@ namespace FeetFinder.ViewModels
             {
                 this._Loading = value;
                 base.OnPropertyChanged(nameof(this.Loading));
-                this.MainFramePage = new Home();
+                this.MainFramePage = new FeetOfTheDay();
             }
         }
 

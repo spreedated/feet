@@ -9,24 +9,24 @@ namespace FeetFinder.Views
     /// <summary>
     /// Interaction logic for Home.xaml
     /// </summary>
-    public partial class Home : Page
+    public partial class FeetOfTheDay : Page
     {
-        public Home()
+        public FeetOfTheDay()
         {
             this.InitializeComponent();
-            ((HomeViewModel)this.DataContext).Instance = this;
+            ((FeetOfTheDayViewModel)this.DataContext).Instance = this;
         }
 
         private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            FootPicture footp = ((HomeViewModel)this.DataContext).SelectedFotd;
+            FootPicture footp = ((FeetOfTheDayViewModel)this.DataContext).SelectedFotd;
 
             if (footp == null)
             {
                 return;
             }
 
-            PictureWindow pw = new(((HomeViewModel)this.DataContext).SelectedFotd)
+            PictureWindow pw = new(((FeetOfTheDayViewModel)this.DataContext).SelectedFotd)
             {
                 Owner = Application.Current.MainWindow
             };

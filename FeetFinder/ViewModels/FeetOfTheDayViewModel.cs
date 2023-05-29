@@ -1,24 +1,21 @@
-﻿using neXn.Lib.Wpf.ViewLogic;
+﻿using FeetFinder.Logic;
+using FeetScraper.Logic;
+using neXn.Lib.Wpf.ViewLogic;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using FeetScraper.Logic;
-using System.Collections.ObjectModel;
-using FeetFinder.Logic;
 using System.Windows.Input;
-using FeetFinder.Views;
 
 namespace FeetFinder.ViewModels
 {
-    public class HomeViewModel : ViewModelBase
+    public class FeetOfTheDayViewModel : ViewModelBase
     {
         public ICommand NextPage { get; } = new RelayCommand<Page>((w) =>
         {
-            HomeViewModel vm = ((HomeViewModel)w.DataContext);
+            FeetOfTheDayViewModel vm = ((FeetOfTheDayViewModel)w.DataContext);
 
             if (vm.PageIndex + 1 > vm.PagesMax)
             {
@@ -26,12 +23,12 @@ namespace FeetFinder.ViewModels
             }
 
             vm.PageIndex++;
-            vm.FotdFeet = new(RuntimeStorage.FeetofthedayResponse.Feet.Skip((vm.PageIndex -1) * 55).Take(55));
+            vm.FotdFeet = new(RuntimeStorage.FeetofthedayResponse.Feet.Skip((vm.PageIndex - 1) * 55).Take(55));
         });
 
         public ICommand PrevPage { get; } = new RelayCommand<Page>((w) =>
         {
-            HomeViewModel vm = ((HomeViewModel)w.DataContext);
+            FeetOfTheDayViewModel vm = ((FeetOfTheDayViewModel)w.DataContext);
 
             if (vm.PageIndex - 1 < 1)
             {
@@ -268,7 +265,7 @@ namespace FeetFinder.ViewModels
         }
         #endregion
 
-        public HomeViewModel()
+        public FeetOfTheDayViewModel()
         {
             Task.Factory.StartNew(() =>
             {
@@ -276,7 +273,7 @@ namespace FeetFinder.ViewModels
 
                 if (RuntimeStorage.Feetoftheday == null || RuntimeStorage.Feetoftheday.Date != DateTime.Now.Date)
                 {
-                    FeetOfTheDay fotd = new();
+                    FeetScraper.Logic.FeetOfTheDay fotd = new();
                     RuntimeStorage.Feetoftheday = fotd.RetrieveAsync().Result;
 
                     FeetPage fp = new(RuntimeStorage.Feetoftheday.Name);

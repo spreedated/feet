@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FeetFinder.Service
@@ -102,7 +103,7 @@ namespace FeetFinder.Service
         #region ICollection
         public void Add(FootPicture item)
         {
-            if (item != null)
+            if (item != null && !this.footPictures.Any(x => x.Id == item.Id))
             {
                 this.footPictures.Add(item);
             }

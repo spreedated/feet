@@ -1,4 +1,4 @@
-﻿<Page x:Class="FeetFinder.Views.Home"
+﻿<Page x:Class="FeetFinder.Views.FeetOfTheDay"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,9 +9,9 @@
       xmlns:ve="clr-namespace:FeetFinder.ViewElements"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="1300"
-      Title="Home">
+      Title="FeetOfTheDay">
     <Page.DataContext>
-        <vm:HomeViewModel/>
+        <vm:FeetOfTheDayViewModel/>
     </Page.DataContext>
     <Grid>
         <Grid.RowDefinitions>

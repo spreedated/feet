@@ -1,0 +1,25 @@
+﻿<Page x:Class="FeetFinder.Views.Pages.Menu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FeetFinder.Views.Pages"
+      xmlns:vm="clr-namespace:FeetFinder.ViewModels.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="160"
+      Title="Menu">
+    <Page.DataContext>
+        <vm:MenuViewModel/>
+    </Page.DataContext>
+    <Grid>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+            <Button Uid="0" Content="Home" Foreground="WhiteSmoke" Margin="0,0,0,10" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"  Style="{StaticResource MaterialDesignRaisedButton}"/>
+            <Button Uid="1" Content="Feet of the Day" Foreground="WhiteSmoke" Margin="0,0,0,10" Command="{Binding FeetOfTheDayCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+            <Button Uid="2" Content="Search" Foreground="WhiteSmoke" Margin="0,0,0,10" Command="{Binding SearchCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+            <Button Uid="3" Content="Downloads" Foreground="WhiteSmoke" Margin="0,0,0,10" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
+            <Button Content="Exit" Foreground="WhiteSmoke" Margin="0,10,0,0" Command="{Binding CloseCommand}"/>
+        </StackPanel>
+    </Grid>
+</Page>

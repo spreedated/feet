@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FeetFinder.Views"
         xmlns:vm="clr-namespace:FeetFinder.ViewModels"
+        xmlns:ic="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:vl="clr-namespace:FeetFinder.ViewLogic"
         mc:Ignorable="d"
         Title="PictureWindow" d:Height="800" d:Width="450" Style="{StaticResource FeetWindowStyle}" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" MouseDown="Window_MouseDown" MaxHeight="1000" MaxWidth="1000">
     <Window.DataContext>
@@ -25,7 +27,11 @@
             </Grid>
             
             <Grid Grid.Row="1" Margin="0,10,0,0">
-                <Button HorizontalAlignment="Left" Content="Download" Foreground="WhiteSmoke" Margin="0" IsEnabled="False"/>
+                <Button HorizontalAlignment="Left" Content="Download" Foreground="WhiteSmoke" Margin="0" IsEnabled="{Binding IsDownloaded, Converter={vl:ReverseBoolConverter}}" Command="{Binding DownloadCommand}" CommandParameter="{Binding Instance}"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" d:Visibility="Visible" Visibility="{Binding IsDownloaded, Converter={vl:BoolToVisibleConverter}}">
+                    <ic:PackIconFontAwesome Kind="CheckSolid" Foreground="ForestGreen" VerticalAlignment="Center" Height="32" Width="32"/>
+                    <Label Content="In downloads" FontSize="18"/>
+                </StackPanel>
                 <Button HorizontalAlignment="Right" Content="Close" Foreground="WhiteSmoke" Margin="0" Command="{Binding CloseCommand}" CommandParameter="{Binding Instance}"/>
             </Grid>
         </Grid>

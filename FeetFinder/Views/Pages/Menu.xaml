@@ -12,11 +12,11 @@
         <vm:MenuViewModel/>
     </Page.DataContext>
     <Grid>
-        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-            <Button Uid="0" Content="Home" Foreground="WhiteSmoke" Margin="0,0,0,10" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"  Style="{StaticResource MaterialDesignRaisedButton}"/>
-            <Button Uid="1" Content="Feet of the Day" Foreground="WhiteSmoke" Margin="0,0,0,10" Command="{Binding FeetOfTheDayCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
-            <Button Uid="2" Content="Search" Foreground="WhiteSmoke" Margin="0,0,0,10" Command="{Binding SearchCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
-            <Button Uid="3" Content="Downloads" Foreground="WhiteSmoke" Margin="0,0,0,10" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+        <StackPanel x:Name="STP_PageMenu" Orientation="Vertical" VerticalAlignment="Top">
+            <Button Uid="0" Content="Home" Foreground="WhiteSmoke" Margin="0,0,0,10" Command="{Binding HomeCommand}" CommandParameter="{Binding Instance}" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+            <Button Uid="1" Content="Feet of the Day" Foreground="WhiteSmoke" Margin="0,0,0,10" Command="{Binding FeetOfTheDayCommand}" CommandParameter="{Binding Instance}"/>
+            <Button Uid="2" Content="Search" Foreground="WhiteSmoke" Margin="0,0,0,10" Command="{Binding SearchCommand}" CommandParameter="{Binding Instance}"/>
+            <Button Uid="3" Content="Downloads" Foreground="WhiteSmoke" Margin="0,0,0,10" Command="{Binding DownloadsCommand}" CommandParameter="{Binding Instance}"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
             <Button Content="Exit" Foreground="WhiteSmoke" Margin="0,10,0,0" Command="{Binding CloseCommand}"/>
